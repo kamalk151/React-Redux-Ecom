@@ -1,64 +1,79 @@
 import React from 'react';
+import {Link} from 'react-router-dom'
 import {Form,Table} from 'react-bootstrap'
+import {useSelector} from 'react-redux';
+import CartList from './CartList';
+
 function Cart() {
+
+    let addedCart = useSelector(state => state.cart).cart ?? []
+    let totalPrice = 0
+    let subTotal = 0
+    
+    let imgSize = {
+        width:'40px'
+    }
+    
+    let proList = addedCart.map((val, ind) => {
+        subTotal = ( val.qty * val.price);
+        totalPrice = totalPrice + subTotal;
+        return <tr key={ind}>
+                <td> {ind + 1} </td>
+                <td> {val.title} </td>
+                <td> <img src={val.image} alt={val.title} style= { imgSize }/> </td>
+                <td> {val.qty} </td>
+                <td> $ {val.price} </td>                                                    
+                <td> $ {subTotal} </td>
+                <td><Link to={''} className="btn-danger btn" onClick="" ><i className="fa fa-trash"></i></Link></td>
+            </tr> 
+    })
 
     return (
         <>
             <div className="latest-product">
                 <h2 className="section-title">Cart List</h2>
             </div>
-            <div className="container">                
-                <Form> 
+            <div className="container">
+                <Form>
                 <div className="row">
                     <div className="col-md-1"></div>
-                        <div className="col-md-10">                            
-                        <Form.Control type="hidden" placeholder="Please enter name" />                                
+                        <div className="col-md-10">
                             <Table>
                                 <thead>
                                     <tr>
                                     <th>#</th>
-                                    <th>First Name</th>
-                                    <th>Last Name</th>
-                                    <th>Username</th>
-                                    <th>Total Price</th>
+                                    <th>Product Name</th>
+                                    <th>Image</th>
+                                    <th>Qty</th>
+                                    <th>Price</th>                                    
+                                    <th>Total</th>                                   
                                     </tr>
-                                </thead>
-                                
+                                </thead>                          
                                 <tbody>
-                                    <tr>
-                                    <td>1</td>
-                                    <td>Mark</td>
-                                    <td>Otto</td>
-                                    <td>@mdo</td>
-                                    <td>10</td>
-                                    </tr>
-                                    
-                                    <tr>
-                                    <td>2</td>
-                                    <td>Jacob</td>
-                                    <td>Thornton</td>
-                                    <td>@fat</td>
-                                    <td>20</td>
-                                    </tr>
-                                    
-                                    <tr className="">                                    
-                                        <td colSpan="3"></td>
-                                        <td >Sub Total</td>
-                                        <td className="border-left">35</td>
-                                    </tr>
-                                    <tr className="">
-                                        <td className="no-top-border" colSpan="3"></td>
-                                        <td className="no-top-border ">Grand Total</td>
-                                        <td className="no-top-border border-left">35</td>
-                                    </tr>
+                                    {   
+                                        proList.length > 0 ? 
+                                        <CartList proList={proList} totalPrice={totalPrice} /> : 
+                                        <tr>
+                                            <td colSpan="5" className="text-center">
+                                                Cart is empty!
+                                            </td>
+                                        </tr>
+                                    } 
                                 </tbody>
                             </Table>
-                    </div>          
+                    </div> 
+                    <div className="col-md-6"> </div>
+                    <div className="col-md-6">
+                   
+                    <Link className="col-md-4 btn btn-primary mb-5 ml-5" to={'shop'} >Continue</Link>       
+                    <Link className="col-md-4 btn btn-danger mb-5 ml-5" to={'checkout'} >Proceed To Checkout</Link>
+                    </div>
                 </div>
                 </Form>
             </div> {/*End brands area*/}
         </>
     );
 }
+
 
 export default Cart;

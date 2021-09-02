@@ -4,7 +4,7 @@ const addToCart = (cartVal) => {
   
   return {
     type: cartType.ADDTOCART,
-    cart: { productName :  cartVal.name, qty: cartVal.qty, price: cartVal.price }
+    cart: cartVal
   }
 }
 
@@ -17,5 +17,6 @@ const updateToCart = (cartVal) => {
 }
 
 //product sections
-
+// This is default export 
 export default {addToCart, updateToCart};
+

@@ -28,6 +28,7 @@ function Shop() {
     
     //Extract product from an array
     let productView = appState.product ? appState.product.map((item,index) => {
+            item.qty = 1
             return <Product item={item} key={index}></Product>                
         }) : []
 
@@ -35,12 +36,12 @@ function Shop() {
     let loader = <img src="/assets/img/loader.gif" alt="loader" title="Something is running wrong on the server" style={{ 'margin': 'auto', 'width': '50%'}} />;
 
     return (        
-        <div className="single-product-area">            
+        <div className="single-product-area">   
             <div className="zigzag-bottom"></div>
             <div className="container">
                 <div className="row"> 
                     { loadImg ? loader : productView  }
-                </div>                
+                </div>
                 <div className="row">
                     <div className="col-md-12">
                         <div className="product-pagination text-center">

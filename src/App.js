@@ -11,26 +11,28 @@ import Shop from './Components/Shop';
 import ProductDetail from './Components/ProductDetail';
 import Cart from './Components/Cart/index';
 import 'bootstrap/dist/css/bootstrap.min.css';
-
+import { UserProvider } from './Components/ThemeColor';
+import {useSelector} from 'react-redux'
 function App() {
+  let themeSelector = useSelector(state => state.theme)
   
   return (
     <>
-      <Router>
-        <Header />
-          <Switch>
-            
-            <Route path="/shop"> <Shop /> </Route>            
-            <Route path="/product/:productId"> <ProductDetail /> </Route>
-            <Route path="/about"> <About /> </Route>            
-            <Route path="/cart"> <Cart /> </Route>
-            <Route path="/Checkout"> <Checkout /> </Route>
-            <Route path="/Contact"> <Contact /> </Route>
-            <Route path="/home" > <Home /> </Route>
-            <Route path="/" exact> <Home /> </Route>
-            
-          </Switch>
-        <Footer />
+      <Router>       
+        <UserProvider value={themeSelector}>  
+          <Header />
+            <Switch>              
+              <Route path="/shop"> <Shop /> </Route>            
+              <Route path="/product/:productId"> <ProductDetail /> </Route>
+              <Route path="/about"> <About /> </Route>            
+              <Route path="/cart"> <Cart /> </Route>
+              <Route path="/checkout"> <Checkout /> </Route>
+              <Route path="/Contact"> <Contact /> </Route>
+              <Route path="/home" > <Home /> </Route>
+              <Route path="/" exact> <Home /> </Route>              
+            </Switch>
+          <Footer />
+          </UserProvider>
       </Router>
     </>
   );

@@ -9,9 +9,8 @@ function Product(props) {
     let title = {
         'fontSize':'1rem'
     }
-
-    return (    
-        
+    
+    return (            
         <div className="col-md-3 col-sm-6">
             <div className="single-shop-product">
                 <div className="product-upper img" style={{ 'width': '40%', 'overflow': 'hidden', 'height': '180px', 'margin': 'auto' }}>
@@ -26,8 +25,7 @@ function Product(props) {
                 </div>                       
             </div>
         </div>
-    );    
-
+    ); 
 }
 
 export default Product;
