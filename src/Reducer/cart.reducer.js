@@ -10,22 +10,29 @@ const initialCart = {
  * @returns 
  */
 const cartReducer = (state = initialCart, action) => {
-  
-  
-  //create carts array 
-
+  let cartInfo = []
+  //create carts array
   switch(action.type) {    
     case cartType.ADDTOCART :   
-      let cartInfo = createCartsList(state, action)   
+      cartInfo = createCartsList(state, action)   
       return {
         ...state,
         cart: cartInfo
       }
     
-    case cartType.SETPRODUCTS: return {
-      ...state,
-      product: action.product
-    }
+    case cartType.UPDATETOCART: 
+      cartInfo = updateCartItem(state, action)
+      return {
+        ...state,
+        product: cartInfo
+      }
+
+    case cartType.DELETETOCART: 
+      cartInfo = deleteCartItem(state, action)
+      return {
+        ...state,
+        product: cartInfo
+      }
 
     default: return state
   }
@@ -42,9 +49,8 @@ const cartReducer = (state = initialCart, action) => {
 function createCartsList(state, action) {
   let cartInfo = 0;
   if(state.cart.length !== 0) {
-    //Check cart array is not empty
-    //Object.assign({},state)   
-    console.log(state,'=state',action,'=ac')  
+    //Check cart array is not empty    
+    console.log(state,'=state',action,'=ac') 
     let existingCart = [ ...state.cart ]
       let addedInCart = existingCart.find(cart => {
         if(cart.id === action.cart.id){
@@ -75,5 +81,49 @@ function createCartsList(state, action) {
   return cartInfo
 
 }
+
+/**
+ * Update cart Qty
+ * @param {*} state 
+ * @param {*} action 
+ * @returns 
+ */
+function updateCartItem(state, action) {
+  let existingCart = [ ...state.cart ]
+  return existingCart.map((item, ind) => {
+      //Update qty for existing product in cart
+      if(item.id === parseInt(action.cart.id)) {       
+        item.qty = action.cart.qty
+      } 
+      return item
+  })
+}
+
+/**
+ * Update cart Qty
+ * @param {*} state 
+ * @param {*} action 
+ * @returns 
+ */
+ function deleteCartItem(state, action) {
+  let existingCart = [ ...state.cart ]
+
+  let addedInCart = existingCart.findIndex(cart => {
+    if(cart.id === action.cart.id){
+      return true;
+    }
+  });
+
+  console.log(addedInCart , '=find index')
+
+  return existingCart.map((item, ind) => {
+      //Update qty for existing product in cart
+      if(item.id === parseInt(action.cart.id)) {       
+        item.qty = action.cart.qty
+      } 
+      return item
+  })
+}
+    
 
 export default cartReducer;
