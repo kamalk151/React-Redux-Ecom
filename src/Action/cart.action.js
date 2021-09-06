@@ -8,7 +8,8 @@ const addToCart = (cartVal) => {
   }
 }
 
-const updateToCart = (itemInfo) => { 
+const updateToCart = (itemInfo) => {
+
   return {
     type: cartType.UPDATETOCART,
     cart: itemInfo
@@ -16,7 +17,8 @@ const updateToCart = (itemInfo) => {
 
 }
 
-const deleteToCart = (itemInfo) => { 
+const deleteToCart = (itemInfo) => {
+     
   return {
     type: cartType.DELETETOCART,
     cart: itemInfo

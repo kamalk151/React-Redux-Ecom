@@ -12,7 +12,7 @@ const initialCart = {
 const cartReducer = (state = initialCart, action) => {
   let cartInfo = []
   //create carts array
-  switch(action.type) {    
+  switch(action.type) {
     case cartType.ADDTOCART :   
       cartInfo = createCartsList(state, action)   
       return {
@@ -20,20 +20,20 @@ const cartReducer = (state = initialCart, action) => {
         cart: cartInfo
       }
     
-    case cartType.UPDATETOCART: 
+    case cartType.UPDATETOCART:
       cartInfo = updateCartItem(state, action)
       return {
         ...state,
-        product: cartInfo
+        cart: cartInfo
       }
 
-    case cartType.DELETETOCART: 
-      cartInfo = deleteCartItem(state, action)
+    case cartType.DELETETOCART:
       return {
         ...state,
-        product: cartInfo
+        cart: state.cart.filter( (item) => {          
+          return (item.id !== action.cart.id) 
+        })
       }
-
     default: return state
   }
 
@@ -61,7 +61,7 @@ function createCartsList(state, action) {
       //Check product is exist or not
       if (addedInCart) {
         let newCart = existingCart.map((item, ind) => {
-          //update qty for existing product in cart
+          //Update qty for existing product in cart
             if(item.id === addedInCart.id) {
               item.qty = item.qty + 1
             }
@@ -79,11 +79,10 @@ function createCartsList(state, action) {
   }
 
   return cartInfo
-
 }
 
 /**
- * Update cart Qty
+ * Update item Qty in cart
  * @param {*} state 
  * @param {*} action 
  * @returns 
@@ -97,33 +96,6 @@ function updateCartItem(state, action) {
       } 
       return item
   })
-}
-
-/**
- * Update cart Qty
- * @param {*} state 
- * @param {*} action 
- * @returns 
- */
- function deleteCartItem(state, action) {
-  let existingCart = [ ...state.cart ]
-
-  let addedInCart = existingCart.findIndex(cart => {
-    if(cart.id === action.cart.id){
-      return true;
-    }
-  });
-
-  console.log(addedInCart , '=find index')
-
-  return existingCart.map((item, ind) => {
-      //Update qty for existing product in cart
-      if(item.id === parseInt(action.cart.id)) {       
-        item.qty = action.cart.qty
-      } 
-      return item
-  })
-}
-    
+} 
 
 export default cartReducer;

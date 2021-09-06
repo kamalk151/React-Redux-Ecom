@@ -10,7 +10,7 @@ function Cart() {
     const dispatch = useDispatch()
   
     let addedCart = useSelector(state => state.cart).cart ?? []       
-    let cartTr = madeCartList(addedCart, handleQty)
+    let cartTr = madeCartList(addedCart, handleQty, deleteItem)
     let proList = cartTr[0]
     let totalPrice = cartTr[1]
     
@@ -18,7 +18,13 @@ function Cart() {
     function handleQty(e){          
         dispatch(cartAction.updateToCart({ id:e.target.dataset.id, qty:e.target.value}))        
     }
+
+    //Handle the item Qty
+    function deleteItem(delId) {
     
+       return dispatch(cartAction.deleteToCart({ id:delId }))        
+    }
+
     return (
         <>
             <div className="latest-product">
@@ -70,7 +76,7 @@ function Cart() {
  * @param {*} addedCart 
  * @returns 
  */
-function madeCartList(addedCart, action){
+function madeCartList(addedCart, action, deleteItem) {
     let totalPrice = 0;
     let subTotal = 0;
 
@@ -81,14 +87,14 @@ function madeCartList(addedCart, action){
     let cartList = addedCart.map((val, ind) => {
         subTotal = ( val.qty * val.price);
         totalPrice = totalPrice + subTotal;
-        return <tr key={ind}>
+        return <tr key={ind} >
                 <td> {ind + 1} </td>
                 <td> {val.title} </td>
                 <td> <img src={val.image} alt={val.title} style= { imgSize }/> </td>
                 <td> <input type="text" value={val.qty} data-id={val.id} className="" onChange={e => action(e, action) } /> </td>
                 <td> $ {val.price} </td>                                                    
                 <td> $ {subTotal} </td>
-                <td><Link to={''} className="btn-danger btn" onClick="" ><i className="fa fa-trash"></i></Link></td>
+                <td><button type="button" className="btn-danger btn" onClick={ () => deleteItem(val.id)} ><i className="fa fa-trash"></i></button></td>
             </tr> 
     })
 
