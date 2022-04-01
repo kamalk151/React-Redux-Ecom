@@ -53,7 +53,7 @@ function cartPrice(appState) {
        let cartQty = appState.cart.length;
         return {cartPrice : cartPrice, cartQty: cartQty}
     }
-    return {cartPrice : 0,cartQty: 0}
+    return {cartPrice : 0, cartQty: 0}
 }
 
 export default Header;

@@ -7,6 +7,7 @@ let initailState = {
 const productReducer = (state = initailState, action) => {
 
   switch(action.type) {
+    
     case productType.SETPRODUCTS: 
     return {
       ...state,

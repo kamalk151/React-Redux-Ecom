@@ -1,5 +1,6 @@
 import React,{useEffect, useState} from 'react';
 import {Link, useParams} from 'react-router-dom';
+import { getProduct } from './../Action/product.action';
 import axios from 'axios';
 import {useDispatch} from 'react-redux'
 import cartAction from './../Action/cart.action';
@@ -9,23 +10,20 @@ function ProductDetail(props) {
     const { productId } = useParams()
     const [productDetail, setProductDetail] = useState([])
     let [qty, setQty] = useState(1)
-    useEffect(() => {
+    const [loadImg, setLoadImg] = useState(true)
+
+    useEffect( async () => {
         /*Assigned protect detail */
-        if(productId && productId != '') fetchProductDetail();
+        try {
+            let proDetail = await getProduct(productId);       
+                setProductDetail(proDetail.data);
+                setLoadImg(false)
+        } catch(err) {
+            new Error(err);
+        }
     },[])
     
-    /* Fetch single product */
-    const fetchProductDetail = async () => {        
-        try {            
-            let proDetail = await axios.get(`https://fakestoreapi.com/products/${productId}`)
-            if(proDetail) { 
-                setProductDetail(proDetail.data);
-                console.log(proDetail.data) }
-        } catch(err) {
-            console.warn(`Err: ${err}`)
-        }
-    } 
-    /* Maintain the Qty */
+      /* Maintain the Qty */
     const qtyHandle = (type, event) => {         
         if(type === 'increment') {
             setQty(++qty);
@@ -35,6 +33,9 @@ function ProductDetail(props) {
         }        
     }
 
+    if(loadImg) {
+        return (<img src="/assets/img/loader.gif" alt="loader" title="Something is running wrong on the server" style={{ 'margin': 'auto', 'width': '50%' }} />);
+    }
     return (    
         <div className="single-product-area">   
             <div className="zigzag-bottom"></div>

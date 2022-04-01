@@ -7,14 +7,12 @@ import userAction from './../Action/user.action'
 import {useDispatch, useSelector} from 'react-redux'
 import themeAction from './../Action/theme.action';
 
-
 function TopHead() {
-    let userState = useSelector(state => state.user); 
+    let userState = useSelector(state => state.user);
     const themeContext  = useContext(UserContext)
     let dispatch = useDispatch();
-    console.log(themeContext, 'head')
     
-    let [showLogin,setLogin] = useState(false); 
+    let [showLogin, setLogin] = useState(false); 
     let [showSignup, setSignup] = useState(false); 
 
     let handleLogin = () => setLogin(!showLogin);   
@@ -22,18 +20,13 @@ function TopHead() {
     let handleSignup = () => setSignup(!showSignup);
 
     let controlThemeColor = (e) => {
-        alert(e.target.value)    
-        
+        alert(e.target.value)  
     }
     
     return (
-        <>
-        
+        <>        
         <LoginForm userAction={userAction} loginDisplay={showLogin} dispatchAction={dispatch} formControl={handleLogin} />        
         <SignupForm signDisplay={showSignup} formControl={handleSignup}/>
-        
-        
-        
 
             <div className="header-area" style={{'backgroundColor': themeContext.theme.BackgroundColor}}>
                 <div className="container" >
@@ -58,8 +51,8 @@ function TopHead() {
                             <div className="header-right">
                                 <ul className="list-unstyled list-inline">
                                     <li className="dropdown dropdown-small">
-                                        <Link to="" >
-                                        <select className="select" onChange={(e) => dispatch(themeAction(e.target.value)) }>
+                                         
+                                        <select style={{'margin': '7px'}} className="select" onChange={(e) => dispatch(themeAction(e.target.value)) }>
                                             <option value="green">
                                                 Green
                                             </option>
@@ -69,14 +62,14 @@ function TopHead() {
                                             <option value="grey" selected>
                                                 Grey
                                             </option>
-                                        </select></Link>
+                                        </select> 
                                        { /* <Link data-toggle="dropdown" data-hover="dropdown" className="dropdown-toggle"></Link> */}                                       
                                     </li>
                                 </ul>
                             </div>
                         </div>
                     </div>
-                </div>
+                </div> 
             </div>{/* End header area */}
     
         </>

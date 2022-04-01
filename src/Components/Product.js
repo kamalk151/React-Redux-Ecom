@@ -5,9 +5,9 @@ import { useDispatch } from 'react-redux';
 
 function Product(props) {    
     const appDispatch = useDispatch()
-    
     let title = {
-        'fontSize':'1rem'
+        'fontSize':'1rem',
+        'minHeight': '40px'
     }
     
     return (            
@@ -18,8 +18,8 @@ function Product(props) {
                 </div>
                 <h3 style={title}><Link to={`product/${props.item.id}`} > {props.item.title} </Link></h3>
                 <div className="product-carousel-price">
-                    <ins>${props.item.price} </ins> <del>${props.item.price - 10}</del>
-                </div>             
+                    <ins>${props.item.price} </ins> <del>$ {(props.item.price - 10).toFixed(2)}</del>
+                </div>
                 <div className="product-option-shop">
                     <Link onClick = {() => appDispatch(cartAction.addToCart(props.item)) } className="add_to_cart_button" data-quantity="1" data-product_sku="" data-product_id="70">Add to cart</Link>
                 </div>                       
